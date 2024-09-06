@@ -8,7 +8,7 @@ import IconButton from '../Buttons/IconButton';
 import CategoryBox from '../CategoryBox';
 import classes from './style.module.scss';
 
-const CategoriesList = ({ categories }) => {
+const CategoriesList = ({ categories, createCategory }) => {
     const [showAddNewCat, setShowAddNewCat] = useState(false);
 
     const toggleAddNewCat = () => {
@@ -26,7 +26,7 @@ const CategoriesList = ({ categories }) => {
 
             <div className={classes.listBody}>
                 {showAddNewCat && (
-                    <AddCategoryBox />
+                    <AddCategoryBox onSubmit={(data) => createCategory(data)} closeAddCat={() => setShowAddNewCat(false)} />
                 )}
                 <CategoryBox
                     title="All"
