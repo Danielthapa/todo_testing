@@ -8,7 +8,7 @@ import IconButton from '../Buttons/IconButton';
 import CategoryBox from '../CategoryBox';
 import classes from './style.module.scss';
 
-const CategoriesList = () => {
+const CategoriesList = ({ categories }) => {
     const [showAddNewCat, setShowAddNewCat] = useState(false);
 
     const toggleAddNewCat = () => {
@@ -18,7 +18,7 @@ const CategoriesList = () => {
     return (
         <div className={classes.listContainer}>
             <div className={classes.listHeader}>
-                <p className={classes.listTitle}>Categories: 5</p>
+                <p className={classes.listTitle}>{`Categories ${categories ? `: ${categories.length}` : ''}`}</p>
                 <div className={classes.actionsWrapper}>
                     <IconButton onClick={toggleAddNewCat} ><AddIcon /></IconButton>
                 </div>
@@ -28,12 +28,26 @@ const CategoriesList = () => {
                 {showAddNewCat && (
                     <AddCategoryBox />
                 )}
-                <CategoryBox title="All" buttons={<button title='action-button' type='button' className={classes.actionButton}><RightArrowIcon /></button>} />
-                <CategoryBox title="Project" buttons={<><button title='action-button' type='button' className={classes.actionButton}><EditIcon /></button><button title='action-button' type='button' className={classes.actionButton}><TrashIcon /></button></>} />
-                <CategoryBox title="Home" buttons={<><button title='action-button' type='button' className={classes.actionButton}><EditIcon /></button><button title='action-button' type='button' className={classes.actionButton}><TrashIcon /></button></>} />
-                <CategoryBox title="FItness" buttons={<><button title='action-button' type='button' className={classes.actionButton}><EditIcon /></button><button title='action-button' type='button' className={classes.actionButton}><TrashIcon /></button></>} />
-                <CategoryBox title="School" buttons={<><button title='action-button' type='button' className={classes.actionButton}><EditIcon /></button><button title='action-button' type='button' className={classes.actionButton}><TrashIcon /></button></>} />
-                <CategoryBox title="Food and Bev" buttons={<><button title='action-button' type='button' className={classes.actionButton}><EditIcon /></button><button title='action-button' type='button' className={classes.actionButton}><TrashIcon /></button></>} />
+                <CategoryBox
+                    title="All"
+                    buttons={
+                        <button title='Show all tasks' type='button' className={classes.actionButton}>
+                            <RightArrowIcon />
+                        </button>} />
+                {categories && categories.map(cat => (
+                    <CategoryBox
+                        key={cat.id}
+                        title={cat?.title}
+                        buttons={
+                            <><button title='Edit Category' type='button' className={classes.actionButton}>
+                                <EditIcon />
+                            </button>
+                                <button title='Delete Category' type='button' className={classes.actionButton}>
+                                    <TrashIcon />
+                                </button></>} />
+
+                ))}
+
             </div>
         </div>
     )
